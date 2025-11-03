@@ -1,0 +1,244 @@
+
+@import "tailwindcss";
+@import "tailwindcss/utilities";
+@import "./theme/tokens.css";
+
+:root {
+  --bg: #f7f7fb;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --primary: #6366f1;
+  --primary-ink: #ffffff;
+  --danger: #ef4444;
+  --ring: 0 0 0 3px rgba(99, 102, 241, .25);
+}
+
+:root.dark {
+  --bg: #0b1020;
+  --card: #0f152a;
+  --text: #ffffff;
+  --muted: #e5e7eb;
+  --line: #1f2742;
+  --primary: #818cf8;
+  --primary-ink: #0b1020;
+  --danger: #f87171;
+  --ring: 0 0 0 3px rgba(129, 140, 248, .35);
+}
+
+@layer components {
+  .page { 
+    padding-top: 0.75rem; 
+    padding-bottom: 0.75rem; 
+    background: var(--bg); 
+  }
+  @media (min-width: 640px) {
+    .page { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+  }
+  
+  .card { 
+    background: var(--card); 
+    border: 1px solid var(--line); 
+    border-radius: 16px; 
+    padding: 1rem;
+  }
+  @media (min-width: 640px) {
+    .card { padding: 1.5rem; }
+  }
+  
+  .input { 
+    background-color: transparent; 
+    width: 100%; 
+    border-radius: 0.75rem; 
+    border: 1px solid; 
+    padding: 0.5rem 0.75rem; 
+    outline: none;
+    border-color: var(--line); 
+    font-size: 0.875rem;
+  }
+  @media (min-width: 640px) {
+    .input { 
+      padding: 0.625rem 0.75rem; 
+      font-size: 1rem;
+    }
+  }
+  
+  .input:focus { box-shadow: var(--ring); border-color: var(--primary); }
+  
+  .btn { 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 0.375rem; 
+    border-radius: 0.75rem; 
+    padding: 0.5rem 0.875rem; 
+    font-weight: 500;
+    color: var(--primary-ink); 
+    background: var(--primary); 
+    font-size: 0.875rem;
+  }
+  @media (min-width: 640px) {
+    .btn { 
+      gap: 0.5rem; 
+      padding: 0.5rem 1rem; 
+      font-size: 1rem;
+    }
+  }
+  .btn:disabled { opacity: 0.7; cursor: not-allowed; }
+  .btn-ghost { 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 0.5rem; 
+    border-radius: 0.75rem; 
+    padding: 0.5rem 0.75rem; 
+    color: var(--text); 
+  }
+  .btn-danger { background: var(--danger); color: #fff; }
+  .muted { color: var(--muted); }
+  /* header should follow the theme card color (force background to avoid accidental overwrites) */
+  .app-header { background: var(--card) !important; color: var(--text); border-bottom: 1px solid var(--line); }
+  .left-sidebar { background: var(--card); color: var(--text); }
+  
+  /* Mobile responsive adjustments */
+  @media (max-width: 767px) {
+    .app-header { 
+      padding-left: 0.75rem; 
+      padding-right: 0.75rem; 
+    }
+    .left-sidebar {
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    .page {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+    /* Responsive table wrapper */
+    .table-container {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    /* Responsive cards */
+    .mobile-stack > * + * {
+      margin-top: 0.75rem;
+    }
+  }
+  
+  /* Responsive text sizing */
+  @media (max-width: 640px) {
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.25rem; }
+    h3 { font-size: 1.125rem; }
+    .text-2xl { font-size: 1.5rem; }
+    .text-xl { font-size: 1.25rem; }
+    .text-lg { font-size: 1.125rem; }
+  }
+  
+  /* Navigation and sidebar text colors */
+  .left-sidebar * { color: var(--text); }
+  .app-header * { color: var(--text); }
+  
+  /* Input placeholder text */
+  .input::placeholder { color: var(--muted); }
+  
+  /* Table and data text */
+  table, th, td { color: var(--text); }
+  
+  /* Ensure all clickable elements use proper text color */
+  a, button:not(.btn):not(.btn-ghost):not(.btn-danger) { color: var(--text); }
+}
+
+@layer base {
+  body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    width: 100%;
+    background: var(--bg);
+    color: var(--text);
+  }
+  
+  #root {
+    width: 100%;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+  }
+  
+  /* Ensure all text elements use theme colors */
+  * {
+    color: inherit;
+  }
+  
+  h1, h2, h3, h4, h5, h6, p, span, div, label, button, input, textarea, select {
+    color: var(--text);
+  }
+  
+  /* Override any hardcoded text colors */
+  .text-black {
+    color: var(--text) !important;
+  }
+  
+  .text-white {
+    color: var(--text) !important;
+  }
+  
+  /* Comprehensive dark mode text override */
+  .dark * {
+    color: var(--text) !important;
+  }
+  
+  /* Specific overrides for common elements that might have hardcoded colors */
+  .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6,
+  .dark p, .dark span, .dark div, .dark label, .dark li, .dark td, .dark th,
+  .dark button:not(.btn):not(.btn-ghost):not(.btn-danger),
+  .dark input, .dark textarea, .dark select {
+    color: #ffffff !important;
+  }
+  
+  /* Override all Tailwind text color classes in dark mode */
+  .dark .text-slate-500, .dark .text-slate-600, .dark .text-slate-700,
+  .dark .text-gray-500, .dark .text-gray-600, .dark .text-gray-700,
+  .dark .text-black, .dark .text-zinc-500, .dark .text-zinc-600 {
+    color: #ffffff !important;
+  }
+  
+  /* Override all text size + color combinations */
+  .dark .text-sm.text-slate-500, .dark .text-sm.text-slate-600,
+  .dark .text-xs.text-slate-500, .dark .text-lg.text-slate-600 {
+    color: #ffffff !important;
+  }
+  
+  /* Override table header and data text colors */
+  .dark th, .dark td, .dark tr {
+    color: #ffffff !important;
+  }
+  
+  /* Override any remaining Tailwind text utilities */
+  .dark [class*="text-slate"], .dark [class*="text-gray"], 
+  .dark [class*="text-zinc"], .dark [class*="text-neutral"] {
+    color: #ffffff !important;
+  }
+  
+  /* Force all text in cards and containers to be white */
+  .dark .card *, .dark .page *, .dark main * {
+    color: #ffffff !important;
+  }
+  
+  /* Ensure muted text is properly visible in dark mode */
+  .dark .muted {
+    color: var(--muted) !important;
+  }
+  
+  /* Keep certain elements with their intended colors */
+  .dark .btn {
+    color: var(--primary-ink) !important;
+  }
+  
+  .dark .btn-danger {
+    color: #ffffff !important;
+  }
+  
+  .dark .text-rose-600, .dark .text-red-600 {
+    color: #ef4444 !important;
+  }
+}

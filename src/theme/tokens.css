@@ -1,0 +1,54 @@
+/* Semantic design tokens: light + dark (toggled by .dark on <html>) */
+
+:root {
+  /* Surfaces */
+  --bg: #f7f7fb;
+  --card: #ffffff;
+  --line: #e5e7eb;
+
+  /* Text */
+  --text: #0f172a;
+  --muted: #6b7280;
+
+  /* Brand / States */
+  --primary: #6366f1;
+  --primary-ink: #ffffff;
+  --success: #10b981;
+  --warn: #f59e0b;
+  --danger: #ef4444;
+
+  /* Effects */
+  --ring: 0 0 0 3px rgba(99, 102, 241, .25);
+
+  /* Radii & spacing (use in inline styles if needed) */
+  --r-lg: 16px;
+  --r-md: 12px;
+  --r-sm: 8px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+}
+
+:root.dark {
+  --bg: #0b1020;
+  --card: #0f152a;
+  --line: #1f2742;
+
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+
+  --primary: #818cf8;
+  --primary-ink: #0b1020;
+  --success: #34d399;
+  --warn: #fbbf24;
+  --danger: #f87171;
+
+  --ring: 0 0 0 3px rgba(129, 140, 248, .35);
+}
+
+/* Small helpers that play nicely with Tailwind */
+.muted { color: var(--muted); }
+.card  { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); }
