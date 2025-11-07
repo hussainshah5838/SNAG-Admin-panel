@@ -7,8 +7,12 @@ import React from "react";
 export default function Badge({ variant = "gray", children, className = "" }) {
   const map = {
     gray: {
-      bg: "bg-slate-100 dark:bg-slate-800",
-      ink: "text-slate-700 dark:text-slate-200",
+      // Use stable Tailwind classes (avoid arbitrary var(...) which may not
+      // be reliably generated). Light: pale slate pill. Dark: darker slate
+      // with a subtle border and light text for contrast.
+      bg: "bg-slate-100 dark:bg-slate-700",
+      ink: "text-slate-700 dark:text-slate-100",
+      border: "border border-transparent dark:border-slate-600",
     },
     brand: {
       bg: "bg-[color:var(--primary)/0.12]",
@@ -30,7 +34,9 @@ export default function Badge({ variant = "gray", children, className = "" }) {
   const s = map[variant] || map.gray;
   return (
     <span
-      className={`inline-flex items-center gap-1 px-2.5 h-6 rounded-full text-xs font-medium ${s.bg} ${s.ink} ${className}`}
+      className={`inline-flex items-center gap-1 px-2.5 h-6 rounded-full text-xs font-medium ${
+        s.bg
+      } ${s.ink} ${s.border || ""} ${className}`}
     >
       {children}
     </span>

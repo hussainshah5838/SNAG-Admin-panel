@@ -198,62 +198,25 @@
     color: var(--text) !important;
   }
   
-  /* Comprehensive dark mode text override */
-  .dark * {
-    color: var(--text) !important;
-  }
-  
-  /* Specific overrides for common elements that might have hardcoded colors */
-  .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6,
-  .dark p, .dark span, .dark div, .dark label, .dark li, .dark td, .dark th,
-  .dark button:not(.btn):not(.btn-ghost):not(.btn-danger),
-  .dark input, .dark textarea, .dark select {
-    color: #ffffff !important;
-  }
-  
-  /* Override all Tailwind text color classes in dark mode */
-  .dark .text-slate-500, .dark .text-slate-600, .dark .text-slate-700,
-  .dark .text-gray-500, .dark .text-gray-600, .dark .text-gray-700,
-  .dark .text-black, .dark .text-zinc-500, .dark .text-zinc-600 {
-    color: #ffffff !important;
-  }
-  
-  /* Override all text size + color combinations */
-  .dark .text-sm.text-slate-500, .dark .text-sm.text-slate-600,
-  .dark .text-xs.text-slate-500, .dark .text-lg.text-slate-600 {
-    color: #ffffff !important;
-  }
-  
-  /* Override table header and data text colors */
-  .dark th, .dark td, .dark tr {
-    color: #ffffff !important;
-  }
-  
-  /* Override any remaining Tailwind text utilities */
-  .dark [class*="text-slate"], .dark [class*="text-gray"], 
-  .dark [class*="text-zinc"], .dark [class*="text-neutral"] {
-    color: #ffffff !important;
-  }
-  
-  /* Force all text in cards and containers to be white */
-  .dark .card *, .dark .page *, .dark main * {
-    color: #ffffff !important;
-  }
-  
+  /* In dark mode we prefer using tokens and component-level classes for color
+     so avoid broad, !important overrides that force every text to white.
+     This preserves per-component Tailwind dark: variants (e.g. badges)
+     and restores correct contrast in mixed-background places like tables. */
+
   /* Ensure muted text is properly visible in dark mode */
   .dark .muted {
     color: var(--muted) !important;
   }
-  
+
   /* Keep certain elements with their intended colors */
   .dark .btn {
     color: var(--primary-ink) !important;
   }
-  
+
   .dark .btn-danger {
     color: #ffffff !important;
   }
-  
+
   .dark .text-rose-600, .dark .text-red-600 {
     color: #ef4444 !important;
   }
