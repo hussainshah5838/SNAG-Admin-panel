@@ -33,7 +33,11 @@ export default function Invoices() {
           <NavLink
             to="/billing/invoices"
             className={({ isActive }) =>
-              `px-3 py-1 rounded-lg text-sm ${isActive || active === "invoices" ? "bg-white dark:bg-slate-700 font-medium" : "muted"}`
+              `px-3 py-1 rounded-lg text-sm ${
+                isActive || active === "invoices"
+                  ? "bg-white dark:bg-slate-700 font-medium"
+                  : "muted"
+              }`
             }
           >
             Invoices
@@ -41,7 +45,11 @@ export default function Invoices() {
           <NavLink
             to="/billing/payouts"
             className={({ isActive }) =>
-              `px-3 py-1 rounded-lg text-sm ${isActive || active === "payouts" ? "bg-white dark:bg-slate-700 font-medium" : "muted"}`
+              `px-3 py-1 rounded-lg text-sm ${
+                isActive || active === "payouts"
+                  ? "bg-white dark:bg-slate-700 font-medium"
+                  : "muted"
+              }`
             }
           >
             Payouts
@@ -60,7 +68,11 @@ export default function Invoices() {
               key: "download",
               header: "",
               render: () => (
-                <a className="btn-ghost" href="#" onClick={(e) => e.preventDefault()}>
+                <a
+                  className="btn-ghost"
+                  href="#"
+                  onClick={(e) => e.preventDefault()}
+                >
                   Download
                 </a>
               ),

@@ -288,7 +288,6 @@ export default function LeftSidebar({ open, onClose }) {
         >
           <Item to="/deals/live" label="Live Deals" />
           <Item to="/deals/approvals" label="Approvals Queue" />
-          <Item to="/deals/categories" label="Categories" />
           <Item to="/deals/violations" label="Violations" />
         </Section>
 

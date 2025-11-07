@@ -12,7 +12,6 @@ export const PATHS = {
 
   DEALS_LIVE: "/deals/live",
   DEALS_APPROVALS: "/deals/approvals",
-  DEALS_CATEGORIES: "/deals/categories",
   DEALS_VIOLATIONS: "/deals/violations",
 
   TRUST_CASES: "/trust/cases",

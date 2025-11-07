@@ -31,9 +31,6 @@ const DealsLive = lazy(() =>
 const DealsApprovals = lazy(() =>
   import("../modules/deals-oversight/approvals/Queue.jsx")
 );
-const DealsCategories = lazy(() =>
-  import("../modules/deals-oversight/categories/Categories.jsx")
-);
 const DealsViolations = lazy(() =>
   import("../modules/deals-oversight/violations/Violations.jsx")
 );
@@ -158,14 +155,6 @@ const router = createBrowserRouter([
         ),
       },
       /* Assets Library route removed */
-      {
-        path: PATHS.DEALS_CATEGORIES,
-        element: (
-          <Suspense fallback={<Loading />}>
-            <DealsCategories />
-          </Suspense>
-        ),
-      },
       {
         path: PATHS.DEALS_VIOLATIONS,
         element: (
