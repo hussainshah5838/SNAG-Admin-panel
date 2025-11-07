@@ -274,7 +274,6 @@ export default function LeftSidebar({ open, onClose }) {
         >
           <Item to="/identity/users" label="Users" />
           <Item to="/identity/retailers" label="Retailers" />
-          <Item to="/identity/roles" label="Roles" />
           <Item to="/identity/invites" label="Invites" />
           <Item to="/identity/audit" label="Audit Log" />
         </Section>
@@ -289,7 +288,6 @@ export default function LeftSidebar({ open, onClose }) {
         >
           <Item to="/deals/live" label="Live Deals" />
           <Item to="/deals/approvals" label="Approvals Queue" />
-          <Item to="/deals/library" label="Assets Library" />
           <Item to="/deals/categories" label="Categories" />
           <Item to="/deals/violations" label="Violations" />
         </Section>
@@ -302,8 +300,6 @@ export default function LeftSidebar({ open, onClose }) {
           openSet={openSet}
           setOpenSet={setOpenSet}
         >
-          <Item to="/trust/signals" label="Signals" />
-          <Item to="/trust/rules" label="Rules Engine" />
           <Item to="/trust/cases" label="Cases" />
           <Item to="/trust/redemptions" label="Redemptions" />
         </Section>
@@ -316,8 +312,6 @@ export default function LeftSidebar({ open, onClose }) {
           openSet={openSet}
           setOpenSet={setOpenSet}
         >
-          <Item to="/analytics/cohorts" label="Cohorts" />
-          <Item to="/analytics/heatmaps" label="Heatmaps" />
           <Item to="/analytics/exports" label="Exports" />
         </Section>
 
@@ -330,10 +324,8 @@ export default function LeftSidebar({ open, onClose }) {
           setOpenSet={setOpenSet}
         >
           <Item to="/billing/plans" label="Plans" />
-          <Item to="/billing/usage" label="Usage" />
           <Item to="/billing/invoices" label="Invoices" />
           <Item to="/billing/payouts" label="Payouts" />
-          <Item to="/billing/disputes" label="Disputes" />
         </Section>
 
         {/* Platform Settings */}
@@ -344,12 +336,7 @@ export default function LeftSidebar({ open, onClose }) {
           openSet={openSet}
           setOpenSet={setOpenSet}
         >
-          <Item to="/settings/targeting" label="Targeting Presets" />
-          <Item to="/settings/limits" label="Operational Limits" />
-          <Item to="/settings/notifications/templates" label="Templates" />
-          <Item to="/settings/notifications/campaigns" label="Campaigns" />
           <Item to="/settings/notifications/logs" label="Notification Logs" />
-          <Item to="/settings/integrations" label="Integrations" />
           <Item to="/settings/docs" label="Legal & Help" />
         </Section>
         <div

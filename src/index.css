@@ -139,6 +139,22 @@
   
   /* Input placeholder text */
   .input::placeholder { color: var(--muted); }
+
+  /* Ensure select controls match the card background and dark theme when opened */
+  .card select.input,
+  select.input {
+    background: transparent; /* show card background */
+    color: var(--text);
+    -webkit-appearance: menulist;
+    appearance: menulist;
+  }
+
+  /* Some browsers render the option list with default white background - try to override */
+  .card select.input option,
+  select.input option {
+    background: var(--card) !important;
+    color: var(--text) !important;
+  }
   
   /* Table and data text */
   table, th, td { color: var(--text); }

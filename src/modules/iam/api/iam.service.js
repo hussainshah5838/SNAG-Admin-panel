@@ -47,47 +47,7 @@ let _invites = [
     sentAt: Date.now() - 864e5,
   },
 ];
-let _roles = {
-  "Super Admin": {
-    Businesses: true,
-    Locations: true,
-    Catalog: true,
-    Orders: true,
-    Payments: true,
-    Refunds: true,
-    Hardware: true,
-    Delivery: true,
-    Reports: true,
-    Settings: true,
-    Users: true,
-  },
-  "Business Admin": {
-    Businesses: false,
-    Locations: true,
-    Catalog: true,
-    Orders: true,
-    Payments: true,
-    Refunds: true,
-    Hardware: true,
-    Delivery: true,
-    Reports: true,
-    Settings: true,
-    Users: true,
-  },
-  "Team Member": {
-    Businesses: false,
-    Locations: false,
-    Catalog: false,
-    Orders: true,
-    Payments: true,
-    Refunds: false,
-    Hardware: true,
-    Delivery: false,
-    Reports: false,
-    Settings: false,
-    Users: false,
-  },
-};
+/* Roles & policies storage removed — role management has been disabled. */
 let _policies = { requireMfa: false, passcodeLength: 6, lockTimeoutMins: 5 };
 
 const genId = (p = "id") => p + Math.random().toString(36).slice(2, 9);
@@ -172,26 +132,7 @@ export async function revokeInvite(id) {
 }
 
 /* ---------- Roles & Policies ---------- */
-export async function fetchRoles() {
-  if (USE_MOCK) {
-    await sleep();
-    return { ok: true, data: _roles };
-  }
-  const { data } = await api.get("/iam/roles");
-  return data;
-}
-export async function updateRole(roleName, matrix) {
-  if (USE_MOCK) {
-    await sleep();
-    _roles = { ..._roles, [roleName]: { ..._roles[roleName], ...matrix } };
-    return { ok: true, data: _roles[roleName] };
-  }
-  const { data } = await api.put(
-    `/iam/roles/${encodeURIComponent(roleName)}`,
-    matrix
-  );
-  return data;
-}
+/* fetchRoles/updateRole removed. */
 
 export async function fetchPolicies() {
   if (USE_MOCK) {

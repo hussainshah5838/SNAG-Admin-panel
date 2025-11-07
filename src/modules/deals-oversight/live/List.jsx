@@ -9,10 +9,22 @@ export default function List() {
   const [q, setQ] = useState("");
   const [rows, setRows] = useState([]);
   const [selected, setSelected] = useState(null);
+  const [filters, setFilters] = useState({
+    category: "",
+    radius: "",
+    status: "live",
+  });
 
   const load = React.useCallback(() => {
-    setRows(deals.list({ q, status: "live" }));
-  }, [q]);
+    setRows(
+      deals.list({
+        q,
+        status: filters.status || undefined,
+        category: filters.category || undefined,
+        maxRadius: filters.radius || undefined,
+      })
+    );
+  }, [q, filters]);
 
   useEffect(() => {
     load();
@@ -27,7 +39,7 @@ export default function List() {
         </button>
       </div>
 
-      <FilterBar onChange={() => {}} />
+      <FilterBar onChange={setFilters} values={filters} />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {rows.map((d) => (

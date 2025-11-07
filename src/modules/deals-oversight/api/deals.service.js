@@ -2,18 +2,17 @@ import { genDeals } from "../../../shared/mock";
 
 const db = {
   deals: genDeals(36),
-  library: Array.from({ length: 12 }).map((_, i) => ({
-    id: `img_${i + 1}`,
-    url: `https://picsum.photos/seed/deal${i + 1}/640/360`,
-    label: `Asset #${i + 1}`,
-    tags: ["promo", "photo"],
-  })),
 };
 
 export const deals = {
-  list: ({ q = "", status } = {}) => {
+  list: ({ q = "", status, category, maxRadius } = {}) => {
     let list = db.deals;
     if (status) list = list.filter((d) => d.status === status);
+    if (category) list = list.filter((d) => d.category === category);
+    if (maxRadius) {
+      const r = Number(maxRadius);
+      if (!Number.isNaN(r)) list = list.filter((d) => Number(d.radius) <= r);
+    }
     if (q) {
       const s = q.toLowerCase();
       list = list.filter(
@@ -38,6 +37,4 @@ export const deals = {
   },
 };
 
-export function getLibrary() {
-  return db.library;
-}
+// getLibrary removed along with the Assets Library feature

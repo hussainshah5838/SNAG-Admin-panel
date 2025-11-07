@@ -1,5 +1,6 @@
 // Simple mock data generators for development
 const statuses = [
+  "live",
   "published",
   "needs-approval",
   "draft",
@@ -14,9 +15,12 @@ export function genDeals(n = 10) {
       id: `deal_${i + 1}`,
       title: `Promo Deal ${i + 1}`,
       brand: [`Acme`, `Globex`, `Initech`, `Umbrella`][i % 4],
+      category: [`Fashion`, `Electronics`, `Beauty`, `Food & Drink`][i % 4],
       status: statuses[i % statuses.length],
       redemptions: Math.floor(Math.random() * 500),
-      radius: `${5 + (i % 20)} km`,
+      // radius in meters (DealCard prints "Radius {radius}m")
+      radius: 500 + (i % 20) * 50,
+      image: `https://picsum.photos/seed/deal${i + 1}/640/360`,
       expiresAt: new Date(
         Date.now() + days * 24 * 60 * 60 * 1000
       ).toISOString(),

@@ -17,9 +17,6 @@ const UsersList = lazy(() =>
 const RetailersList = lazy(() =>
   import("../modules/identity-access/retailers/List.jsx")
 );
-const RolesPage = lazy(() =>
-  import("../modules/identity-access/roles/RolesPage.jsx")
-);
 const InvitesList = lazy(() =>
   import("../modules/identity-access/invites/InvitesList.jsx")
 );
@@ -34,9 +31,6 @@ const DealsLive = lazy(() =>
 const DealsApprovals = lazy(() =>
   import("../modules/deals-oversight/approvals/Queue.jsx")
 );
-const DealsLibrary = lazy(() =>
-  import("../modules/deals-oversight/assets-library/Library.jsx")
-);
 const DealsCategories = lazy(() =>
   import("../modules/deals-oversight/categories/Categories.jsx")
 );
@@ -45,12 +39,6 @@ const DealsViolations = lazy(() =>
 );
 
 // Trust & Safety
-const TrustSignals = lazy(() =>
-  import("../modules/trust-safety/signals/Dashboard.jsx")
-);
-const TrustRules = lazy(() =>
-  import("../modules/trust-safety/rules/Rules.jsx")
-);
 const TrustCases = lazy(() =>
   import("../modules/trust-safety/cases/Cases.jsx")
 );
@@ -59,47 +47,22 @@ const TrustRedemptions = lazy(() =>
 );
 
 // Analytics & Reporting (Overview removed)
-const AnalyticsCohorts = lazy(() =>
-  import("../modules/analytics-reporting/cohorts/Cohorts.jsx")
-);
-const AnalyticsHeatmaps = lazy(() =>
-  import("../modules/analytics-reporting/heatmaps/Heatmaps.jsx")
-);
 const AnalyticsExports = lazy(() =>
   import("../modules/analytics-reporting/exports/Exports.jsx")
 );
 
 // Billing
 const BillingPlans = lazy(() => import("../modules/billing/plans/Plans.jsx"));
-const BillingUsage = lazy(() => import("../modules/billing/usage/Usage.jsx"));
 const BillingInvoices = lazy(() =>
   import("../modules/billing/invoices/Invoices.jsx")
 );
 const BillingPayouts = lazy(() =>
   import("../modules/billing/payouts/Payouts.jsx")
 );
-const BillingDisputes = lazy(() =>
-  import("../modules/billing/disputes/Disputes.jsx")
-);
 
 // Settings
-const SettingsTargeting = lazy(() =>
-  import("../modules/platform-settings/targeting/Presets.jsx")
-);
-const SettingsLimits = lazy(() =>
-  import("../modules/platform-settings/limits/OperationalLimits.jsx")
-);
-const SettingsTemplates = lazy(() =>
-  import("../modules/platform-settings/notifications/Templates.jsx")
-);
-const SettingsCampaigns = lazy(() =>
-  import("../modules/platform-settings/notifications/Campaigns.jsx")
-);
 const SettingsLogs = lazy(() =>
   import("../modules/platform-settings/notifications/Logs.jsx")
-);
-const SettingsIntegrations = lazy(() =>
-  import("../modules/platform-settings/integrations/Integrations.jsx")
 );
 const SettingsDocs = lazy(() =>
   import("../modules/platform-settings/legal-help/Docs.jsx")
@@ -160,14 +123,7 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
-      {
-        path: PATHS.ROLES,
-        element: (
-          <Suspense fallback={<Loading />}>
-            <RolesPage />
-          </Suspense>
-        ),
-      },
+      /* Roles route removed */
       {
         path: PATHS.INVITES,
         element: (
@@ -201,14 +157,7 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
-      {
-        path: PATHS.DEALS_LIBRARY,
-        element: (
-          <Suspense fallback={<Loading />}>
-            <DealsLibrary />
-          </Suspense>
-        ),
-      },
+      /* Assets Library route removed */
       {
         path: PATHS.DEALS_CATEGORIES,
         element: (
@@ -226,22 +175,6 @@ const router = createBrowserRouter([
         ),
       },
 
-      {
-        path: PATHS.TRUST_SIGNALS,
-        element: (
-          <Suspense fallback={<Loading />}>
-            <TrustSignals />
-          </Suspense>
-        ),
-      },
-      {
-        path: PATHS.TRUST_RULES,
-        element: (
-          <Suspense fallback={<Loading />}>
-            <TrustRules />
-          </Suspense>
-        ),
-      },
       {
         path: PATHS.TRUST_CASES,
         element: (
@@ -261,22 +194,6 @@ const router = createBrowserRouter([
 
       // Overview route removed from Analytics & Reporting
       {
-        path: PATHS.ANALYTICS_COHORTS,
-        element: (
-          <Suspense fallback={<Loading />}>
-            <AnalyticsCohorts />
-          </Suspense>
-        ),
-      },
-      {
-        path: PATHS.ANALYTICS_HEATMAPS,
-        element: (
-          <Suspense fallback={<Loading />}>
-            <AnalyticsHeatmaps />
-          </Suspense>
-        ),
-      },
-      {
         path: PATHS.ANALYTICS_EXPORTS,
         element: (
           <Suspense fallback={<Loading />}>
@@ -290,14 +207,6 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loading />}>
             <BillingPlans />
-          </Suspense>
-        ),
-      },
-      {
-        path: PATHS.BILLING_USAGE,
-        element: (
-          <Suspense fallback={<Loading />}>
-            <BillingUsage />
           </Suspense>
         ),
       },
@@ -317,47 +226,7 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
-      {
-        path: PATHS.BILLING_DISPUTES,
-        element: (
-          <Suspense fallback={<Loading />}>
-            <BillingDisputes />
-          </Suspense>
-        ),
-      },
 
-      {
-        path: PATHS.SETTINGS_TARGETING,
-        element: (
-          <Suspense fallback={<Loading />}>
-            <SettingsTargeting />
-          </Suspense>
-        ),
-      },
-      {
-        path: PATHS.SETTINGS_LIMITS,
-        element: (
-          <Suspense fallback={<Loading />}>
-            <SettingsLimits />
-          </Suspense>
-        ),
-      },
-      {
-        path: PATHS.SETTINGS_TEMPLATES,
-        element: (
-          <Suspense fallback={<Loading />}>
-            <SettingsTemplates />
-          </Suspense>
-        ),
-      },
-      {
-        path: PATHS.SETTINGS_CAMPAIGNS,
-        element: (
-          <Suspense fallback={<Loading />}>
-            <SettingsCampaigns />
-          </Suspense>
-        ),
-      },
       {
         path: PATHS.SETTINGS_LOGS,
         element: (
@@ -367,10 +236,10 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: PATHS.SETTINGS_INTEGRATIONS,
+        path: PATHS.SETTINGS_LOGS,
         element: (
           <Suspense fallback={<Loading />}>
-            <SettingsIntegrations />
+            <SettingsLogs />
           </Suspense>
         ),
       },

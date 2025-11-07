@@ -1,12 +1,6 @@
-import React, { useState } from "react";
-import CampaignBuilder from "../components/CampaignBuilder";
+// Removed: Notification Campaigns removed per request. Keep placeholder.
+import React from "react";
 
-export default function Campaigns() {
-  const [cfg, setCfg] = useState({
-    name: "Weekend Push",
-    channel: "push",
-    segment: "Mall Fashionistas",
-    sendAt: "17:00",
-  });
-  return <CampaignBuilder value={cfg} onChange={setCfg} />;
+export default function Removed_Notification_Campaigns() {
+  return null;
 }
