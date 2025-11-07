@@ -324,8 +324,7 @@ export default function LeftSidebar({ open, onClose }) {
           setOpenSet={setOpenSet}
         >
           <Item to="/billing/plans" label="Plans" />
-          <Item to="/billing/invoices" label="Invoices" />
-          <Item to="/billing/payouts" label="Payouts" />
+          <Item to="/billing/invoices" label="Invoices & Payouts" />
         </Section>
 
         {/* Platform Settings */}
