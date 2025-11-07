@@ -30,6 +30,14 @@ export default function UsersList() {
     return () => (mounted = false);
   }, [debounced, page]);
 
+  // expose a fetch function so we can re-run list after create/update
+  const fetchData = async ({ q: qv = debounced, pg = 1 } = {}) => {
+    setBusy(true);
+    const res = await listUsers({ q: qv, page: pg, limit: 10 });
+    setData(res);
+    setBusy(false);
+  };
+
   const onCreate = () => {
     setEditRow(null);
     setOpen(true);
@@ -44,8 +52,9 @@ export default function UsersList() {
 
   const afterSave = () => {
     setOpen(false);
+    // refresh list and reset to first page so new/edited item is visible
     setPage(1);
-    setQ((v) => v); // retrigger
+    fetchData({ q: debounced, pg: 1 });
   };
 
   const rows = useMemo(() => data.items, [data.items]);

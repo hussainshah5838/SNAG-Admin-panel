@@ -30,6 +30,13 @@ export default function RetailersList() {
     return () => (mounted = false);
   }, [debounced, page]);
 
+  const fetchData = async ({ q: qv = debounced, pg = 1 } = {}) => {
+    setBusy(true);
+    const res = await listRetailers({ q: qv, page: pg, limit: 10 });
+    setData(res);
+    setBusy(false);
+  };
+
   const onCreate = () => {
     setEditRow(null);
     setOpen(true);
@@ -45,7 +52,7 @@ export default function RetailersList() {
   const afterSave = () => {
     setOpen(false);
     setPage(1);
-    setQ((v) => v);
+    fetchData({ q: debounced, pg: 1 });
   };
 
   const rows = useMemo(() => data.items, [data.items]);
