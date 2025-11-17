@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { 
-  getKpis, 
-  getSentimentDistribution, 
-  getOffersRedeemed, 
-  getMonthlyRevenue, 
-  getRevenueSplit 
+import {
+  getKpis,
+  getSentimentDistribution,
+  getOffersRedeemed,
+  getMonthlyRevenue,
+  getRevenueSplit,
 } from "./api/dashboard.service";
-import { StatsCard, DonutChart, BarChart, LineChart } from "../../shared/charts";
+import {
+  StatsCard,
+  DonutChart,
+  BarChart,
+  LineChart,
+} from "../../shared/charts";
 
 export default function Dashboard() {
   const [kpis, setKpis] = useState(null);
@@ -42,26 +47,26 @@ export default function Dashboard() {
   return (
     <div className="page">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+          Dashboard
+        </h1>
       </div>
 
       {/* Stats Cards Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
-        {busy ? (
-          Array.from({ length: 4 }).map((_, i) => (
-            <StatsCard key={i} loading={true} />
-          ))
-        ) : (
-          Object.values(kpis || {}).map((card, i) => (
-            <StatsCard
-              key={i}
-              title={card.title}
-              value={card.value}
-              trend={card.trend}
-              icon={card.icon}
-            />
-          ))
-        )}
+        {busy
+          ? Array.from({ length: 4 }).map((_, i) => (
+              <StatsCard key={i} loading={true} />
+            ))
+          : Object.values(kpis || {}).map((card, i) => (
+              <StatsCard
+                key={i}
+                title={card.title}
+                value={card.value}
+                trend={card.trend}
+                icon={card.icon}
+              />
+            ))}
       </div>
 
       {/* Charts Grid */}
@@ -69,22 +74,22 @@ export default function Dashboard() {
         {/* Sentiment Distribution */}
         <div className="card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-slate-900 dark:text-white">Sentiment Distribution</h3>
+            <h3 className="font-semibold text-slate-900 dark:text-white">
+              Sentiment Distribution
+            </h3>
             <select className="input text-sm w-auto">
               <option>This Month</option>
             </select>
           </div>
-          <DonutChart
-            data={sentimentData}
-            loading={busy}
-            size={180}
-          />
+          <DonutChart data={sentimentData} loading={busy} size={180} />
         </div>
 
         {/* Offers Redeemed */}
         <div className="card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-slate-900 dark:text-white">Offers Redeemed</h3>
+            <h3 className="font-semibold text-slate-900 dark:text-white">
+              Offers Redeemed
+            </h3>
             <select className="input text-sm w-auto">
               <option>This Month</option>
             </select>
@@ -103,7 +108,9 @@ export default function Dashboard() {
         {/* Monthly Revenue */}
         <div className="card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-slate-900 dark:text-white">Monthly Revenue</h3>
+            <h3 className="font-semibold text-slate-900 dark:text-white">
+              Monthly Revenue
+            </h3>
             <select className="input text-sm w-auto">
               <option>This Month</option>
             </select>
@@ -120,16 +127,14 @@ export default function Dashboard() {
         {/* Revenue Split by Offer Category */}
         <div className="card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-slate-900 dark:text-white">Revenue Split by Offer Category</h3>
+            <h3 className="font-semibold text-slate-900 dark:text-white">
+              Revenue Split by Offer Category
+            </h3>
             <select className="input text-sm w-auto">
               <option>This Month</option>
             </select>
           </div>
-          <DonutChart
-            data={revenueSplitData}
-            loading={busy}
-            size={180}
-          />
+          <DonutChart data={revenueSplitData} loading={busy} size={180} />
         </div>
       </div>
     </div>

@@ -66,41 +66,30 @@ export default function DonutChart({
   });
 
   return (
-    <div className={`flex flex-col items-center gap-4 ${className}`}>
-      <div className="relative">
-        <svg width={size} height={size} className="transform -rotate-90">
-          {/* Background circle */}
-          <circle
-            cx={center}
-            cy={center}
-            r={radius}
-            fill="transparent"
-            stroke="#e5e7eb"
-            strokeWidth={strokeWidth}
-            className="dark:stroke-slate-700"
-          />
+    <div className={`${className}`} style={{ width: "100%", height: size }}>
+      <ResponsiveContainer>
+        <RePieChart>
+          <Pie
+            data={segments}
+            dataKey="value"
+            innerRadius={size / 2 - strokeWidth}
+            outerRadius={size / 2}
+            paddingAngle={2}
+            stroke="none"
+            label={false}
+          >
+            {segments.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={entry.color} />
+            ))}
+          </Pie>
+          <Tooltip formatter={(value) => `${value}`} />
+          {showLegend && <Legend verticalAlign="bottom" />}
+        </RePieChart>
+      </ResponsiveContainer>
 
-          {/* Data segments */}
-          {segments.map((segment, index) => (
-            <circle
-              key={index}
-              cx={center}
-              cy={center}
-              r={radius}
-              fill="transparent"
-              stroke={segment.color}
-              strokeWidth={strokeWidth}
-              strokeDasharray={segment.strokeDasharray}
-              strokeDashoffset={segment.strokeDashoffset}
-              strokeLinecap="round"
-              className="transition-all duration-300 hover:opacity-80"
-            />
-          ))}
-        </svg>
-      </div>
-
+      {/* Custom legend below for percentages if desired */}
       {showLegend && (
-        <div className="space-y-2 w-full">
+        <div className="space-y-2 w-full mt-3">
           {segments.map((segment, index) => (
             <div key={index} className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -114,7 +103,7 @@ export default function DonutChart({
               </div>
               {showPercentages && (
                 <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
-                  {segment.percentage.toFixed(0)}%
+                  {total ? ((segment.value / total) * 100).toFixed(0) : 0}%
                 </span>
               )}
             </div>

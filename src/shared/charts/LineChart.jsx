@@ -1,4 +1,14 @@
 import React from "react";
+import {
+  ResponsiveContainer,
+  LineChart as ReLineChart,
+  Line,
+  Area,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+} from "recharts";
 
 /**
  * Reusable line chart component using SVG
@@ -42,100 +52,30 @@ export default function LineChart({
 
   const width = 400; // Fixed width, can be made responsive
   const padding = 40;
-  const chartWidth = width - padding * 2;
-  const chartHeight = height - padding * 2;
-
-  const maxValue = Math.max(...data.map((item) => item.value));
-  const minValue = Math.min(...data.map((item) => item.value));
-  const valueRange = maxValue - minValue || 1;
-
-  // Calculate points
-  const points = data.map((item, index) => {
-    const x = padding + (index / (data.length - 1)) * chartWidth;
-    const y =
-      padding +
-      chartHeight -
-      ((item.value - minValue) / valueRange) * chartHeight;
-    return { x, y, ...item };
-  });
-
-  // Create path string for line
-  const pathData = points
-    .map((point, index) => `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`)
-    .join(" ");
-
-  // Create area path (for fill)
-  const areaPathData = showArea
-    ? `${pathData} L ${points[points.length - 1].x} ${
-        padding + chartHeight
-      } L ${padding} ${padding + chartHeight} Z`
-    : "";
+  if (!data.length) {
+    return (
+      <div
+        className={`flex items-center justify-center text-slate-500 ${className}`}
+        style={{ height }}
+      >
+        No data available
+      </div>
+    );
+  }
 
   return (
-    <div className={`${className}`}>
-      <svg width="100%" height={height} viewBox={`0 0 ${width} ${height}`}>
-        {/* Grid lines */}
-        <defs>
-          <pattern
-            id="grid"
-            width="40"
-            height="40"
-            patternUnits="userSpaceOnUse"
-          >
-            <path
-              d="M 40 0 L 0 0 0 40"
-              fill="none"
-              stroke="#e5e7eb"
-              strokeWidth="1"
-              className="dark:stroke-slate-700"
-            />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid)" opacity="0.3" />
-
-        {/* Area fill */}
-        {showArea && <path d={areaPathData} fill={fillColor} opacity="0.3" />}
-
-        {/* Line */}
-        <path
-          d={pathData}
-          fill="none"
-          stroke={color}
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-
-        {/* Data points */}
-        {showDots &&
-          points.map((point, index) => (
-            <circle
-              key={index}
-              cx={point.x}
-              cy={point.y}
-              r="4"
-              fill={color}
-              stroke="white"
-              strokeWidth="2"
-              className="hover:r-6 transition-all duration-200"
-            >
-              <title>{`${point.label}: ${point.value}`}</title>
-            </circle>
-          ))}
-
-        {/* X-axis labels */}
-        {points.map((point, index) => (
-          <text
-            key={index}
-            x={point.x}
-            y={height - 10}
-            textAnchor="middle"
-            className="text-xs fill-slate-500 dark:fill-slate-400"
-          >
-            {point.label}
-          </text>
-        ))}
-      </svg>
+    <div className={`${className}`} style={{ height }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <ReLineChart data={data} margin={{ top: 10, right: 16, left: 0, bottom: 20 }}>
+          <CartesianGrid strokeDasharray="3 3" className="dark:stroke-slate-700" />
+          <XAxis dataKey="label" tick={{ fill: '#64748b' }} />
+          <YAxis tick={{ fill: '#64748b' }} />
+          <Tooltip formatter={(value) => value.toLocaleString()} />
+          {showArea && (
+            <Area type="monotone" dataKey="value" stroke={color} fill={fillColor} fillOpacity={0.25} />
+          )}
+          <Line type="monotone" dataKey="value" stroke={color} dot={showDots} strokeWidth={2} />
+        </ReLineChart>
+      </ResponsiveContainer>
     </div>
   );
-}

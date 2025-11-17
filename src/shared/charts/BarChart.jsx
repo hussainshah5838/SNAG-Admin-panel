@@ -1,4 +1,15 @@
 import React from "react";
+import {
+  ResponsiveContainer,
+  BarChart as ReBarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  Cell,
+  LabelList,
+} from "recharts";
 
 /**
  * Reusable bar chart component
@@ -20,42 +31,24 @@ export default function BarChart({
   if (loading) {
     return (
       <div className={`animate-pulse ${className}`} style={{ height }}>
-        <div className="flex items-end justify-between h-full gap-2">
-          {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="flex-1 flex flex-col">
-              <div
-                className="bg-slate-200 dark:bg-slate-700 rounded-t w-full"
-                style={{ height: `${20 + Math.random() * 60}%` }}
-              ></div>
-              <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded mt-2"></div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  if (!data.length) {
-    return (
-      <div
-        className={`flex items-center justify-center text-slate-500 ${className}`}
-        style={{ height }}
-      >
-        No data available
-      </div>
-    );
-  }
-
-  const maxValue = Math.max(...data.map((item) => item.value));
-
   return (
     <div className={`${className}`} style={{ height }}>
-      <div className="flex items-end justify-between h-full gap-2">
-        {data.map((item, index) => {
-          const barHeight = (item.value / maxValue) * 80; // 80% of container height
-
-          return (
-            <div key={index} className="flex-1 flex flex-col items-center">
+      <ResponsiveContainer width="100%" height="100%">
+        <ReBarChart data={data} margin={{ top: 10, right: 16, left: 0, bottom: 20 }}>
+          <CartesianGrid strokeDasharray="3 3" className="dark:stroke-slate-700" />
+          <XAxis dataKey="label" tick={{ fill: '#64748b' }} />
+          <YAxis tick={{ fill: '#64748b' }} />
+          <Tooltip formatter={(value) => value.toLocaleString()} />
+          <Bar dataKey="value" fill={color} radius={[6,6,0,0]}>
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} />
+            ))}
+            {showValues && <LabelList dataKey="value" position="top" formatter={(v)=>v.toLocaleString()} />}
+          </Bar>
+        </ReBarChart>
+      </ResponsiveContainer>
+    </div>
+  );
               <div className="flex-1 flex flex-col justify-end relative group">
                 {showValues && (
                   <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-medium text-slate-600 dark:text-slate-400">
