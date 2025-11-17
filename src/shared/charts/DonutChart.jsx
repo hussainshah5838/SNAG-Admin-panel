@@ -5,7 +5,6 @@ import {
   Pie,
   Cell,
   Tooltip,
-  Legend,
 } from "recharts";
 
 /**
@@ -80,8 +79,9 @@ export default function DonutChart({
           <Pie
             data={segments}
             dataKey="value"
-            innerRadius={size / 2 - strokeWidth}
-            outerRadius={size / 2}
+            nameKey="label"
+            innerRadius="60%"
+            outerRadius="80%"
             paddingAngle={2}
             stroke="none"
             label={false}
@@ -91,7 +91,6 @@ export default function DonutChart({
             ))}
           </Pie>
           <Tooltip formatter={(value) => `${value}`} />
-          {showLegend && <Legend verticalAlign="bottom" />}
         </RePieChart>
       </ResponsiveContainer>
 
@@ -100,12 +99,12 @@ export default function DonutChart({
         <div className="space-y-2 w-full mt-3">
           {segments.map((segment, index) => (
             <div key={index} className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 max-w-[65%]">
                 <div
-                  className="w-3 h-3 rounded-full"
+                  className="w-3 h-3 rounded-full shrink-0"
                   style={{ backgroundColor: segment.color }}
                 ></div>
-                <span className="text-sm text-slate-700 dark:text-slate-300">
+                <span className="text-sm text-slate-700 dark:text-slate-300 truncate">
                   {segment.label}
                 </span>
               </div>
