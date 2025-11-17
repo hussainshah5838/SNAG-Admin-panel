@@ -11,13 +11,100 @@ export async function getKpis() {
   if (USE_MOCK) {
     await delay();
     return {
-      usage: { title: "Active Users", value: "12,304", delta: 8.3 },
-      redemptions: { title: "Redemptions", value: "4,921", delta: 3.2 },
-      retailers: { title: "Retailers", value: "732", delta: 1.1 },
-      growth: { title: "Revenue", value: "$48.7k", delta: 5.9 },
+      users: {
+        title: "Total Users",
+        value: "12,450",
+        trend: 10,
+        icon: "users",
+      },
+      merchants: {
+        title: "Total Merchants",
+        value: "4,540",
+        trend: 10,
+        icon: "merchants",
+      },
+      offers: {
+        title: "Active Offers",
+        value: "7,650",
+        trend: 32,
+        icon: "offers",
+      },
+      redemptions: {
+        title: "Total Redemptions",
+        value: "32,560",
+        trend: 20,
+        icon: "redemptions",
+      },
     };
   }
   const { data } = await http.get("/admin/dashboard/kpis");
+  return data;
+}
+
+export async function getSentimentDistribution() {
+  if (USE_MOCK) {
+    await delay();
+    return [
+      { label: "iOS", value: 45, color: "#3b82f6" },
+      { label: "Android", value: 50, color: "#10b981" },
+      { label: "Web", value: 5, color: "#f59e0b" },
+    ];
+  }
+  const { data } = await http.get("/admin/dashboard/sentiment");
+  return data;
+}
+
+export async function getOffersRedeemed() {
+  if (USE_MOCK) {
+    await delay();
+    return [
+      { label: "Week 1", value: 5000 },
+      { label: "Week 2", value: 4000 },
+      { label: "Week 3", value: 4500 },
+      { label: "Week 4", value: 5500 },
+    ];
+  }
+  const { data } = await http.get("/admin/dashboard/offers-redeemed");
+  return data;
+}
+
+export async function getMonthlyRevenue() {
+  if (USE_MOCK) {
+    await delay();
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    return months.map((month) => ({
+      label: month,
+      value: 200 + Math.random() * 400, // Random revenue between 200-600k
+    }));
+  }
+  const { data } = await http.get("/admin/dashboard/monthly-revenue");
+  return data;
+}
+
+export async function getRevenueSplit() {
+  if (USE_MOCK) {
+    await delay();
+    return [
+      { label: "Food & Beverages", value: 40, color: "#3b82f6" },
+      { label: "Beauty & Wellness", value: 30, color: "#10b981" },
+      { label: "Fashion", value: 20, color: "#ef4444" },
+      { label: "Services", value: 5, color: "#8b5cf6" },
+    ];
+  }
+  const { data } = await http.get("/admin/dashboard/revenue-split");
   return data;
 }
 
