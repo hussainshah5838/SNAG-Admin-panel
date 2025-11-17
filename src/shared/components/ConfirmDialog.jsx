@@ -8,8 +8,20 @@ export default function ConfirmDialog({
   cancelText = "Cancel",
   onConfirm,
   onClose,
+  variant = "default",
 }) {
   if (!open) return null;
+
+  // Map variant to confirm button classes
+  let confirmClass = "btn";
+  if (variant === "danger") {
+    confirmClass =
+      "inline-flex items-center px-4 py-2 rounded-md bg-rose-500 text-white hover:bg-rose-600";
+  } else if (variant === "success") {
+    confirmClass =
+      "inline-flex items-center px-4 py-2 rounded-md bg-emerald-500 text-white hover:bg-emerald-600";
+  }
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-black/40" onClick={onClose} />
@@ -20,7 +32,7 @@ export default function ConfirmDialog({
           <button className="btn-ghost" onClick={onClose}>
             {cancelText}
           </button>
-          <button className="btn" onClick={onConfirm}>
+          <button className={confirmClass} onClick={onConfirm}>
             {confirmText}
           </button>
         </div>

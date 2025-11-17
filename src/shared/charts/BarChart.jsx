@@ -70,7 +70,19 @@ export default function BarChart({
           />
           <XAxis dataKey="label" tick={{ fill: "#64748b" }} />
           <YAxis tick={{ fill: "#64748b" }} />
-          <Tooltip formatter={(value) => value.toLocaleString()} />
+          <Tooltip
+            formatter={(value) => value.toLocaleString()}
+            contentStyle={{
+              backgroundColor: "var(--card)",
+              border: "1px solid var(--line)",
+              color: "var(--text)",
+              boxShadow: "0 6px 18px rgba(2,6,23,0.35)",
+              borderRadius: 8,
+            }}
+            itemStyle={{ color: "var(--text)" }}
+            labelStyle={{ color: "var(--muted)" }}
+            wrapperStyle={{ zIndex: 1000 }}
+          />
           <Bar dataKey="value" fill={color} radius={[6, 6, 0, 0]}>
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} />

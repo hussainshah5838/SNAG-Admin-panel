@@ -31,21 +31,21 @@ const DealsLive = lazy(() =>
 const DealsApprovals = lazy(() =>
   import("../modules/deals-oversight/approvals/Queue.jsx")
 );
-const DealsViolations = lazy(() =>
-  import("../modules/deals-oversight/violations/Violations.jsx")
+
+// Deals redemptions (moved from Trust & Safety)
+const DealsRedemptions = lazy(() =>
+  import("../modules/deals-oversight/redemptions/Explorer.jsx")
 );
 
-// Trust & Safety
-const TrustCases = lazy(() =>
-  import("../modules/trust-safety/cases/Cases.jsx")
-);
-const TrustRedemptions = lazy(() =>
-  import("../modules/trust-safety/redemptions/Explorer.jsx")
-);
+const UserReport = lazy(() => import("../modules/user-report"));
+const MerchantReports = lazy(() => import("../modules/merchant-reports"));
+const FinancialReports = lazy(() => import("../modules/financial-reports"));
+const FraudReports = lazy(() => import("../modules/fraud-reports"));
+const OfferReports = lazy(() => import("../modules/offer-reports"));
 
-// Analytics & Reporting (Overview removed)
-const AnalyticsExports = lazy(() =>
-  import("../modules/analytics-reporting/exports/Exports.jsx")
+// Platform Settings - Admin Controls
+const SettingsAdminControls = lazy(() =>
+  import("../modules/platform-settings/admin-controls/AdminControls.jsx")
 );
 
 // Billing
@@ -58,9 +58,6 @@ const BillingPayouts = lazy(() =>
 );
 
 // Settings
-const SettingsLogs = lazy(() =>
-  import("../modules/platform-settings/notifications/Logs.jsx")
-);
 const SettingsDocs = lazy(() =>
   import("../modules/platform-settings/legal-help/Docs.jsx")
 );
@@ -82,6 +79,46 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loading />}>
             <Dashboard />
+          </Suspense>
+        ),
+      },
+      {
+        path: PATHS.USER_REPORT,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <UserReport />
+          </Suspense>
+        ),
+      },
+      {
+        path: PATHS.MERCHANT_REPORTS,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <MerchantReports />
+          </Suspense>
+        ),
+      },
+      {
+        path: PATHS.FINANCIAL_REPORTS,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <FinancialReports />
+          </Suspense>
+        ),
+      },
+      {
+        path: PATHS.FRAUD_REPORTS,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <FraudReports />
+          </Suspense>
+        ),
+      },
+      {
+        path: PATHS.OFFER_REPORTS,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <OfferReports />
           </Suspense>
         ),
       },
@@ -156,40 +193,15 @@ const router = createBrowserRouter([
       },
       /* Assets Library route removed */
       {
-        path: PATHS.DEALS_VIOLATIONS,
+        path: PATHS.DEALS_REDEMPTIONS,
         element: (
           <Suspense fallback={<Loading />}>
-            <DealsViolations />
+            <DealsRedemptions />
           </Suspense>
         ),
       },
 
-      {
-        path: PATHS.TRUST_CASES,
-        element: (
-          <Suspense fallback={<Loading />}>
-            <TrustCases />
-          </Suspense>
-        ),
-      },
-      {
-        path: PATHS.TRUST_REDEMPTIONS,
-        element: (
-          <Suspense fallback={<Loading />}>
-            <TrustRedemptions />
-          </Suspense>
-        ),
-      },
-
-      // Overview route removed from Analytics & Reporting
-      {
-        path: PATHS.ANALYTICS_EXPORTS,
-        element: (
-          <Suspense fallback={<Loading />}>
-            <AnalyticsExports />
-          </Suspense>
-        ),
-      },
+      // Analytics Exports route removed
 
       {
         path: PATHS.BILLING_PLANS,
@@ -217,18 +229,10 @@ const router = createBrowserRouter([
       },
 
       {
-        path: PATHS.SETTINGS_LOGS,
+        path: PATHS.SETTINGS_ADMIN_CONTROLS,
         element: (
           <Suspense fallback={<Loading />}>
-            <SettingsLogs />
-          </Suspense>
-        ),
-      },
-      {
-        path: PATHS.SETTINGS_LOGS,
-        element: (
-          <Suspense fallback={<Loading />}>
-            <SettingsLogs />
+            <SettingsAdminControls />
           </Suspense>
         ),
       },

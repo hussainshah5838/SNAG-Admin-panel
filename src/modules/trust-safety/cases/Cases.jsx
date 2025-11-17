@@ -53,3 +53,9 @@ export default function Cases() {
     </div>
   );
 }
+  // Module removed: Cases (Trust & Safety)
+  // This file has been cleared because the `trust/cases` module was removed from the app.
+
+  export default function Cases() {
+    return null;
+  }

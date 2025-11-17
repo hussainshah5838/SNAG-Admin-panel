@@ -47,7 +47,7 @@ export default function Dashboard() {
   return (
     <div className="page">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+        <h1 className="text-2xl font-bold text-black dark:text-white">
           Dashboard
         </h1>
       </div>
@@ -74,20 +74,26 @@ export default function Dashboard() {
         {/* Sentiment Distribution */}
         <div className="card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-slate-900 dark:text-white">
+            <h3 className="font-semibold text-black dark:text-white">
               Sentiment Distribution
             </h3>
             <select className="input text-sm w-auto">
               <option>This Month</option>
             </select>
           </div>
-          <DonutChart data={sentimentData} loading={busy} size={180} />
+          <div className="w-full h-44 sm:h-48 md:h-56">
+            <DonutChart
+              data={sentimentData}
+              loading={busy}
+              className="h-full"
+            />
+          </div>
         </div>
 
         {/* Offers Redeemed */}
         <div className="card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-slate-900 dark:text-white">
+            <h3 className="font-semibold text-black dark:text-white">
               Offers Redeemed
             </h3>
             <select className="input text-sm w-auto">
@@ -108,7 +114,7 @@ export default function Dashboard() {
         {/* Monthly Revenue */}
         <div className="card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-slate-900 dark:text-white">
+            <h3 className="font-semibold text-black dark:text-white">
               Monthly Revenue
             </h3>
             <select className="input text-sm w-auto">
@@ -127,14 +133,20 @@ export default function Dashboard() {
         {/* Revenue Split by Offer Category */}
         <div className="card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-slate-900 dark:text-white">
+            <h3 className="font-semibold text-black dark:text-white">
               Revenue Split by Offer Category
             </h3>
             <select className="input text-sm w-auto">
               <option>This Month</option>
             </select>
           </div>
-          <DonutChart data={revenueSplitData} loading={busy} size={180} />
+          <div className="w-full h-44 sm:h-48 md:h-56">
+            <DonutChart
+              data={revenueSplitData}
+              loading={busy}
+              className="h-full"
+            />
+          </div>
         </div>
       </div>
     </div>

@@ -177,7 +177,6 @@ export default function LeftSidebar({ open, onClose }) {
       dashboard: ["/dashboard"],
       identity: ["/identity"],
       deals: ["/deals"],
-      safety: ["/trust"],
       analytics: ["/analytics"],
       billing: ["/billing"],
       settings: ["/settings"],
@@ -288,20 +287,10 @@ export default function LeftSidebar({ open, onClose }) {
         >
           <Item to="/deals/live" label="Live Deals" />
           <Item to="/deals/approvals" label="Approvals Queue" />
-          <Item to="/deals/violations" label="Violations" />
+          <Item to="/deals/redemptions" label="Redemptions" />
         </Section>
 
-        {/* Trust & Safety */}
-        <Section
-          id="safety"
-          icon="shield"
-          label="Trust & Safety"
-          openSet={openSet}
-          setOpenSet={setOpenSet}
-        >
-          <Item to="/trust/cases" label="Cases" />
-          <Item to="/trust/redemptions" label="Redemptions" />
-        </Section>
+        {/* Trust & Safety section removed */}
 
         {/* Analytics */}
         <Section
@@ -311,7 +300,11 @@ export default function LeftSidebar({ open, onClose }) {
           openSet={openSet}
           setOpenSet={setOpenSet}
         >
-          <Item to="/analytics/exports" label="Exports" />
+          <Item to="/reports/users" label="User Report" />
+          <Item to="/reports/merchants" label="Merchant Reports" />
+          <Item to="/reports/financials" label="Financial Reports" />
+          <Item to="/reports/offers" label="Offer Reports" />
+          <Item to="/reports/fraud" label="Fraud Reports" />
         </Section>
 
         {/* Billing */}
@@ -334,7 +327,7 @@ export default function LeftSidebar({ open, onClose }) {
           openSet={openSet}
           setOpenSet={setOpenSet}
         >
-          <Item to="/settings/notifications/logs" label="Notification Logs" />
+          <Item to="/settings/admin-controls" label="Admin Controls" />
           <Item to="/settings/docs" label="Legal & Help" />
         </Section>
         <div

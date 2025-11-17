@@ -8,14 +8,7 @@ import {
 } from "recharts";
 
 /**
- * Reusable donut chart component using CSS and SVG
- * @param {Object} props
- * @param {Array} props.data - Array of {label, value, color} objects
- * @param {number} props.size - Chart size in pixels
- * @param {number} props.strokeWidth - Donut thickness
- * @param {boolean} props.showLegend - Show legend
- * @param {boolean} props.showPercentages - Show percentages in legend
- * @param {boolean} props.loading - Loading state
+
  */
 export default function DonutChart({
   data = [],
@@ -52,7 +45,6 @@ export default function DonutChart({
   const total = data.reduce((sum, item) => sum + item.value, 0);
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const center = size / 2;
 
   let cumulativePercentage = 0;
   const segments = data.map((item) => {
@@ -73,50 +65,84 @@ export default function DonutChart({
   });
 
   return (
-    <div className={`${className}`} style={{ width: "100%", height: size }}>
-      <ResponsiveContainer>
-        <RePieChart>
-          <Pie
-            data={segments}
-            dataKey="value"
-            nameKey="label"
-            innerRadius="60%"
-            outerRadius="80%"
-            paddingAngle={2}
-            stroke="none"
-            label={false}
+    <div className={`${className}`} style={{ width: "100%", height: "100%" }}>
+      <div className="flex flex-col md:flex-row items-stretch gap-4 h-full">
+        {/* Chart area: centered and responsive */}
+        <div
+          className="flex items-center justify-center w-full md:w-1/2"
+          style={{ minHeight: 0 }}
+        >
+          <div
+            style={{
+              width: size,
+              height: size,
+              maxWidth: "100%",
+              maxHeight: "100%",
+            }}
           >
-            {segments.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.color} />
-            ))}
-          </Pie>
-          <Tooltip formatter={(value) => `${value}`} />
-        </RePieChart>
-      </ResponsiveContainer>
-
-      {/* Custom legend below for percentages if desired */}
-      {showLegend && (
-        <div className="space-y-2 w-full mt-3">
-          {segments.map((segment, index) => (
-            <div key={index} className="flex items-center justify-between">
-              <div className="flex items-center gap-2 max-w-[65%]">
-                <div
-                  className="w-3 h-3 rounded-full shrink-0"
-                  style={{ backgroundColor: segment.color }}
-                ></div>
-                <span className="text-sm text-slate-700 dark:text-slate-300 truncate">
-                  {segment.label}
-                </span>
-              </div>
-              {showPercentages && (
-                <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
-                  {total ? ((segment.value / total) * 100).toFixed(0) : 0}%
-                </span>
-              )}
-            </div>
-          ))}
+            <ResponsiveContainer width="100%" height="100%">
+              <RePieChart>
+                <Pie
+                  data={segments}
+                  dataKey="value"
+                  nameKey="label"
+                  innerRadius="60%"
+                  outerRadius="80%"
+                  paddingAngle={2}
+                  stroke="none"
+                  label={false}
+                >
+                  {segments.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip
+                  formatter={(value) => `${value}`}
+                  contentStyle={{
+                    backgroundColor: "var(--card)",
+                    border: "1px solid var(--line)",
+                    color: "var(--text)",
+                    boxShadow: "0 6px 18px rgba(2,6,23,0.35)",
+                    borderRadius: 8,
+                  }}
+                  itemStyle={{ color: "var(--text)" }}
+                  labelStyle={{ color: "var(--muted)" }}
+                  wrapperStyle={{ zIndex: 1000 }}
+                />
+              </RePieChart>
+            </ResponsiveContainer>
+          </div>
         </div>
-      )}
+
+        {/* Legend area: stacked and scrollable on small heights */}
+        {showLegend && (
+          <div className="w-full md:w-1/2 overflow-auto">
+            <div className="space-y-2">
+              {segments.map((segment, index) => (
+                <div key={index} className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="w-3 h-3 rounded-full shrink-0"
+                      style={{ backgroundColor: segment.color }}
+                    ></div>
+                    <span className="text-sm" style={{ color: "var(--text)" }}>
+                      {segment.label}
+                    </span>
+                  </div>
+                  {showPercentages && (
+                    <span
+                      className="text-sm font-medium"
+                      style={{ color: "var(--text)" }}
+                    >
+                      {total ? ((segment.value / total) * 100).toFixed(0) : 0}%
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

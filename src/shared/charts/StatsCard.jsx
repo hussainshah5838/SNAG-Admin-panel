@@ -106,7 +106,7 @@ export default function StatsCard({
         </div>
         <div>
           <p className="text-sm text-slate-600 dark:text-slate-400">{title}</p>
-          <p className="text-2xl font-bold text-slate-900 dark:text-white">
+          <p className="text-2xl font-bold text-black dark:text-white">
             {value}
           </p>
         </div>
