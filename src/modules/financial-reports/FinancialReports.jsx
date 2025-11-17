@@ -13,6 +13,9 @@ export default function FinancialReports() {
   const [monthlyData, setMonthlyData] = useState([]);
   const [revenueSplitData, setRevenueSplitData] = useState([]);
   const [busy, setBusy] = useState(true);
+  const [period, setPeriod] = useState("month");
+  const [weekday, setWeekday] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
 
   const [rows, setRows] = useState([
     {
@@ -86,20 +89,40 @@ export default function FinancialReports() {
     let mounted = true;
     async function run() {
       setBusy(true);
-      const [k, m, rs] = await Promise.all([
-        getKpis(),
-        getOffersRedeemed(),
-        getRevenueSplit(),
-      ]);
+      const [k, m] = await Promise.all([getKpis(), getOffersRedeemed()]);
       if (!mounted) return;
       setKpis(k);
       setMonthlyData(m);
-      setRevenueSplitData(rs);
       setBusy(false);
     }
     run();
     return () => (mounted = false);
   }, []);
+
+  // fetch revenue split whenever period, weekday or selectedDate changes
+  useEffect(() => {
+    let mounted = true;
+    async function fetchSplit() {
+      setBusy(true);
+      try {
+        const option =
+          period === "week"
+            ? weekday || null
+            : period === "date"
+            ? selectedDate || null
+            : null;
+        const rs = await getRevenueSplit(period, option);
+        if (!mounted) return;
+        setRevenueSplitData(rs);
+      } catch {
+        // ignore for now
+      } finally {
+        if (mounted) setBusy(false);
+      }
+    }
+    fetchSplit();
+    return () => (mounted = false);
+  }, [period, weekday, selectedDate]);
 
   useEffect(() => {
     function handleResize() {
@@ -179,13 +202,52 @@ export default function FinancialReports() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <div className="card p-6">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-4 gap-3">
             <h3 className="font-semibold text-black dark:text-white">
               Revenue by Category
             </h3>
-            <select className="input text-sm w-auto">
-              <option>This Month</option>
-            </select>
+            <div className="flex items-center gap-2">
+              <label className="muted text-sm">Show:</label>
+              <select
+                className="input text-sm w-auto"
+                value={period}
+                onChange={(e) => {
+                  setPeriod(e.target.value);
+                  // reset weekday/selectedDate when switching away
+                  if (e.target.value !== "week") setWeekday("");
+                  if (e.target.value !== "date") setSelectedDate("");
+                }}
+              >
+                <option value="month">This Month</option>
+                <option value="week">This Week</option>
+                <option value="day">Today</option>
+                <option value="date">This Date</option>
+              </select>
+              {period === "week" && (
+                <select
+                  className="input text-sm w-auto"
+                  value={weekday}
+                  onChange={(e) => setWeekday(e.target.value)}
+                >
+                  <option value="">All days</option>
+                  <option value="Monday">Monday</option>
+                  <option value="Tuesday">Tuesday</option>
+                  <option value="Wednesday">Wednesday</option>
+                  <option value="Thursday">Thursday</option>
+                  <option value="Friday">Friday</option>
+                  <option value="Saturday">Saturday</option>
+                  <option value="Sunday">Sunday</option>
+                </select>
+              )}
+              {period === "date" && (
+                <input
+                  type="date"
+                  className="input text-sm w-auto"
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                />
+              )}
+            </div>
           </div>
           <DonutChart data={revenueSplitData} loading={busy} size={220} />
         </div>
@@ -252,7 +314,7 @@ export default function FinancialReports() {
         {isMobile ? (
           <div className="divide-y rounded-md overflow-hidden">
             {paged.map((r) => (
-              <div key={r.id} className="px-4 py-4 bg-[var(--card)]">
+              <div key={r.id} className="px-4 py-4 bg-(--card)">
                 <div className="flex items-start justify-between">
                   <div>
                     <div className="text-sm font-medium text-black dark:text-white">

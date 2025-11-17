@@ -94,43 +94,93 @@ export async function getMonthlyRevenue() {
   return data;
 }
 
-export async function getRevenueSplit() {
+export async function getRevenueSplit(period = "month", option = null) {
   if (USE_MOCK) {
     await delay();
-    return [
+    // Base distribution
+    const base = [
       { label: "Food & Beverages", value: 40, color: "#3b82f6" },
       { label: "Beauty & Wellness", value: 30, color: "#10b981" },
       { label: "Fashion", value: 20, color: "#ef4444" },
       { label: "Services", value: 5, color: "#8b5cf6" },
     ];
-  }
-  const { data } = await http.get("/admin/dashboard/revenue-split");
-  return data;
-}
 
-export async function getTrends() {
-  if (USE_MOCK) {
-    await delay();
-    return Array.from(
-      { length: 30 },
-      () => 50 + Math.round(Math.random() * 80)
-    );
-  }
-  const { data } = await http.get("/admin/dashboard/trends");
-  return data;
-}
+    if (period === "week") {
+      if (option) {
+        const mapping = {
+          Monday: [2, -1, -0.5, -0.5],
+          Tuesday: [1, 0, -0.5, -0.5],
+          Wednesday: [0, 2, -1, -1],
+          Thursday: [-1, 3, -1, -1],
+          Friday: [5, -3, -1, -1],
+          Saturday: [6, -4, -1, -1],
+          Sunday: [3, -1, -1, -1],
+        };
+        const tweak = mapping[option] || [0, 0, 0, 0];
+        return base.map((b, i) => ({
+          ...b,
+          value: Math.max(1, b.value + tweak[i]),
+        }));
+      }
+      return [
+        { label: "Food & Beverages", value: 38, color: "#3b82f6" },
+        { label: "Beauty & Wellness", value: 34, color: "#10b981" },
+        { label: "Fashion", value: 20, color: "#ef4444" },
+        { label: "Services", value: 8, color: "#8b5cf6" },
+      ];
+    }
 
-export async function getTopSegments() {
-  if (USE_MOCK) {
-    await delay();
-    return [
-      { id: "fnb", label: "Food & Beverage", percent: 64 },
-      { id: "fashion", label: "Fashion", percent: 53 },
-      { id: "elec", label: "Electronics", percent: 42 },
-      { id: "beauty", label: "Beauty", percent: 31 },
-      { id: "travel", label: "Travel", percent: 18 },
-    ];
+    if (period === "day") {
+      return [
+        { label: "Food & Beverages", value: 45, color: "#3b82f6" },
+        { label: "Beauty & Wellness", value: 28, color: "#10b981" },
+        { label: "Fashion", value: 17, color: "#ef4444" },
+        { label: "Services", value: 10, color: "#8b5cf6" },
+      ];
+    }
+
+    if (period === "date") {
+      if (option) {
+        try {
+          const d = new Date(option);
+          const days = [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+          ];
+          const day = days[d.getDay()];
+          const mapping = {
+            Monday: [2, -1, -0.5, -0.5],
+            Tuesday: [1, 0, -0.5, -0.5],
+            Wednesday: [0, 2, -1, -1],
+            Thursday: [-1, 3, -1, -1],
+            Friday: [5, -3, -1, -1],
+            Saturday: [6, -4, -1, -1],
+            Sunday: [3, -1, -1, -1],
+          };
+          const tweak = mapping[day] || [0, 0, 0, 0];
+          return base.map((b, i) => ({
+            ...b,
+            value: Math.max(1, b.value + tweak[i]),
+          }));
+        } catch (_) {
+          return base;
+        }
+      }
+      return base;
+    }
+
+    // default: month
+    return base;
   }
-  const { data } = await http.get("/admin/dashboard/top-segments");
+
+  const optParam = option ? `&opt=${encodeURIComponent(option)}` : "";
+  const { data } = await http.get(
+    `/admin/dashboard/revenue-split?period=${period}${optParam}`
+  );
   return data;
 }

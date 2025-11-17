@@ -20,29 +20,55 @@ export default function Dashboard() {
   const [revenueData, setRevenueData] = useState([]);
   const [revenueSplitData, setRevenueSplitData] = useState([]);
   const [busy, setBusy] = useState(true);
+  const [period, setPeriod] = useState("month");
+  const [weekday, setWeekday] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
 
   useEffect(() => {
     let mounted = true;
     async function run() {
       setBusy(true);
-      const [k, s, o, r, rs] = await Promise.all([
+      const [k, s, o, r] = await Promise.all([
         getKpis(),
         getSentimentDistribution(),
         getOffersRedeemed(),
         getMonthlyRevenue(),
-        getRevenueSplit(),
       ]);
       if (!mounted) return;
       setKpis(k);
       setSentimentData(s);
       setOffersData(o);
       setRevenueData(r);
-      setRevenueSplitData(rs);
       setBusy(false);
     }
     run();
     return () => (mounted = false);
   }, []);
+
+  // fetch revenue split whenever period, weekday or selectedDate changes
+  useEffect(() => {
+    let mounted = true;
+    async function fetchSplit() {
+      setBusy(true);
+      try {
+        const option =
+          period === "week"
+            ? weekday || null
+            : period === "date"
+            ? selectedDate || null
+            : null;
+        const rs = await getRevenueSplit(period, option);
+        if (!mounted) return;
+        setRevenueSplitData(rs);
+      } catch {
+        // ignore
+      } finally {
+        if (mounted) setBusy(false);
+      }
+    }
+    fetchSplit();
+    return () => (mounted = false);
+  }, [period, weekday, selectedDate]);
 
   return (
     <div className="page">
@@ -77,9 +103,47 @@ export default function Dashboard() {
             <h3 className="font-semibold text-black dark:text-white">
               Sentiment Distribution
             </h3>
-            <select className="input text-sm w-auto">
-              <option>This Month</option>
-            </select>
+            <div className="flex items-center gap-2">
+              <label className="muted text-sm">Show:</label>
+              <select
+                className="input text-sm w-auto"
+                value={period}
+                onChange={(e) => {
+                  setPeriod(e.target.value);
+                  if (e.target.value !== "week") setWeekday("");
+                  if (e.target.value !== "date") setSelectedDate("");
+                }}
+              >
+                <option value="month">This Month</option>
+                <option value="week">This Week</option>
+                <option value="day">Today</option>
+                <option value="date">This Date</option>
+              </select>
+              {period === "week" && (
+                <select
+                  className="input text-sm w-auto"
+                  value={weekday}
+                  onChange={(e) => setWeekday(e.target.value)}
+                >
+                  <option value="">All days</option>
+                  <option value="Monday">Monday</option>
+                  <option value="Tuesday">Tuesday</option>
+                  <option value="Wednesday">Wednesday</option>
+                  <option value="Thursday">Thursday</option>
+                  <option value="Friday">Friday</option>
+                  <option value="Saturday">Saturday</option>
+                  <option value="Sunday">Sunday</option>
+                </select>
+              )}
+              {period === "date" && (
+                <input
+                  type="date"
+                  className="input text-sm w-auto"
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                />
+              )}
+            </div>
           </div>
           <div className="w-full h-44 sm:h-48 md:h-56">
             <DonutChart
