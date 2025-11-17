@@ -50,32 +50,40 @@ export default function LineChart({
     );
   }
 
-  const width = 400; // Fixed width, can be made responsive
-  const padding = 40;
-  if (!data.length) {
-    return (
-      <div
-        className={`flex items-center justify-center text-slate-500 ${className}`}
-        style={{ height }}
-      >
-        No data available
-      </div>
-    );
-  }
+  // Responsive container handles sizing; no fixed width required here.
 
   return (
     <div className={`${className}`} style={{ height }}>
       <ResponsiveContainer width="100%" height="100%">
-        <ReLineChart data={data} margin={{ top: 10, right: 16, left: 0, bottom: 20 }}>
-          <CartesianGrid strokeDasharray="3 3" className="dark:stroke-slate-700" />
-          <XAxis dataKey="label" tick={{ fill: '#64748b' }} />
-          <YAxis tick={{ fill: '#64748b' }} />
+        <ReLineChart
+          data={data}
+          margin={{ top: 10, right: 16, left: 0, bottom: 20 }}
+        >
+          <CartesianGrid
+            strokeDasharray="3 3"
+            className="dark:stroke-slate-700"
+          />
+          <XAxis dataKey="label" tick={{ fill: "#64748b" }} />
+          <YAxis tick={{ fill: "#64748b" }} />
           <Tooltip formatter={(value) => value.toLocaleString()} />
           {showArea && (
-            <Area type="monotone" dataKey="value" stroke={color} fill={fillColor} fillOpacity={0.25} />
+            <Area
+              type="monotone"
+              dataKey="value"
+              stroke={color}
+              fill={fillColor}
+              fillOpacity={0.25}
+            />
           )}
-          <Line type="monotone" dataKey="value" stroke={color} dot={showDots} strokeWidth={2} />
+          <Line
+            type="monotone"
+            dataKey="value"
+            stroke={color}
+            dot={showDots}
+            strokeWidth={2}
+          />
         </ReLineChart>
       </ResponsiveContainer>
     </div>
   );
+}

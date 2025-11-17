@@ -31,47 +31,60 @@ export default function BarChart({
   if (loading) {
     return (
       <div className={`animate-pulse ${className}`} style={{ height }}>
+        <div className="flex items-end justify-between h-full gap-2">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div key={i} className="flex-1 flex flex-col">
+              <div
+                className="bg-slate-200 dark:bg-slate-700 rounded-t w-full"
+                style={{ height: `${20 + Math.random() * 60}%` }}
+              ></div>
+              <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded mt-2"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (!data || !data.length) {
+    return (
+      <div
+        className={`flex items-center justify-center text-slate-500 ${className}`}
+        style={{ height }}
+      >
+        No data available
+      </div>
+    );
+  }
+
   return (
     <div className={`${className}`} style={{ height }}>
       <ResponsiveContainer width="100%" height="100%">
-        <ReBarChart data={data} margin={{ top: 10, right: 16, left: 0, bottom: 20 }}>
-          <CartesianGrid strokeDasharray="3 3" className="dark:stroke-slate-700" />
-          <XAxis dataKey="label" tick={{ fill: '#64748b' }} />
-          <YAxis tick={{ fill: '#64748b' }} />
+        <ReBarChart
+          data={data}
+          margin={{ top: 10, right: 16, left: 0, bottom: 20 }}
+        >
+          <CartesianGrid
+            strokeDasharray="3 3"
+            className="dark:stroke-slate-700"
+          />
+          <XAxis dataKey="label" tick={{ fill: "#64748b" }} />
+          <YAxis tick={{ fill: "#64748b" }} />
           <Tooltip formatter={(value) => value.toLocaleString()} />
-          <Bar dataKey="value" fill={color} radius={[6,6,0,0]}>
+          <Bar dataKey="value" fill={color} radius={[6, 6, 0, 0]}>
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} />
             ))}
-            {showValues && <LabelList dataKey="value" position="top" formatter={(v)=>v.toLocaleString()} />}
+            {showValues && (
+              <LabelList
+                dataKey="value"
+                position="top"
+                formatter={(v) => v.toLocaleString()}
+              />
+            )}
           </Bar>
         </ReBarChart>
       </ResponsiveContainer>
-    </div>
-  );
-              <div className="flex-1 flex flex-col justify-end relative group">
-                {showValues && (
-                  <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-medium text-slate-600 dark:text-slate-400">
-                    {item.value.toLocaleString()}
-                  </div>
-                )}
-                <div
-                  className="w-full rounded-t transition-all duration-300 hover:opacity-80"
-                  style={{
-                    backgroundColor: color,
-                    height: `${barHeight}%`,
-                    minHeight: item.value > 0 ? "4px" : "0",
-                  }}
-                ></div>
-              </div>
-
-              <div className="mt-2 text-xs text-center text-slate-600 dark:text-slate-400">
-                {item.label}
-              </div>
-            </div>
-          );
-        })}
-      </div>
     </div>
   );
 }
