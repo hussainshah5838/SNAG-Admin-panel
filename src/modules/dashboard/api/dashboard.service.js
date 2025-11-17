@@ -54,9 +54,36 @@ export async function getSentimentDistribution() {
   return data;
 }
 
-export async function getOffersRedeemed() {
+export async function getOffersRedeemed(period = "month", option = null) {
   if (USE_MOCK) {
     await delay();
+    if (period === "month") {
+      return [
+        { label: "Week 1", value: 5000 },
+        { label: "Week 2", value: 4000 },
+        { label: "Week 3", value: 4500 },
+        { label: "Week 4", value: 5500 },
+      ];
+    }
+    if (period === "week") {
+      // return days in week
+      return [
+        { label: "Mon", value: 800 },
+        { label: "Tue", value: 900 },
+        { label: "Wed", value: 700 },
+        { label: "Thu", value: 1100 },
+        { label: "Fri", value: 1300 },
+        { label: "Sat", value: 1600 },
+        { label: "Sun", value: 1200 },
+      ];
+    }
+    if (period === "day" || period === "date") {
+      // return hourly buckets for a day
+      return Array.from({ length: 8 }).map((_, i) => ({
+        label: `${i * 3}:00`,
+        value: 50 + Math.round(Math.random() * 250),
+      }));
+    }
     return [
       { label: "Week 1", value: 5000 },
       { label: "Week 2", value: 4000 },
@@ -64,13 +91,52 @@ export async function getOffersRedeemed() {
       { label: "Week 4", value: 5500 },
     ];
   }
-  const { data } = await http.get("/admin/dashboard/offers-redeemed");
+  const optParam = option ? `&opt=${encodeURIComponent(option)}` : "";
+  const { data } = await http.get(
+    `/admin/dashboard/offers-redeemed?period=${period}${optParam}`
+  );
   return data;
 }
 
-export async function getMonthlyRevenue() {
+export async function getMonthlyRevenue(period = "month", option = null) {
   if (USE_MOCK) {
     await delay();
+    if (period === "month") {
+      const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      return months.map((month) => ({
+        label: month,
+        value: 200 + Math.random() * 400,
+      }));
+    }
+    if (period === "week") {
+      // return 7 days
+      const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+      return days.map((d) => ({
+        label: d,
+        value: 50 + Math.round(Math.random() * 300),
+      }));
+    }
+    if (period === "day" || period === "date") {
+      // hourly or small buckets
+      return Array.from({ length: 8 }).map((_, i) => ({
+        label: `${i * 3}:00`,
+        value: 100 + Math.round(Math.random() * 300),
+      }));
+    }
+    // fallback
     const months = [
       "Jan",
       "Feb",
@@ -87,10 +153,13 @@ export async function getMonthlyRevenue() {
     ];
     return months.map((month) => ({
       label: month,
-      value: 200 + Math.random() * 400, // Random revenue between 200-600k
+      value: 200 + Math.random() * 400,
     }));
   }
-  const { data } = await http.get("/admin/dashboard/monthly-revenue");
+  const optParam = option ? `&opt=${encodeURIComponent(option)}` : "";
+  const { data } = await http.get(
+    `/admin/dashboard/monthly-revenue?period=${period}${optParam}`
+  );
   return data;
 }
 

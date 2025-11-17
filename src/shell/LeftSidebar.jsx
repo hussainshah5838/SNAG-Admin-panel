@@ -196,7 +196,7 @@ export default function LeftSidebar({ open, onClose }) {
   return (
     <aside
       className={`
-        w-64 shrink-0 h-screen p-3 overflow-y-auto border-r left-sidebar
+        w-64 shrink-0 p-3 overflow-y-auto border-r left-sidebar
         fixed md:static top-0 left-0 z-50 transform transition-transform duration-300 ease-in-out
         ${open ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
       `}

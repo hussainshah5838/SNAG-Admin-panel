@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StatsCard, DonutChart, BarChart } from "../../shared/charts";
 import {
   getKpis,
-  getOffersRedeemed,
+  getMonthlyRevenue,
   getRevenueSplit,
 } from "../dashboard/api/dashboard.service";
 import SearchBar from "../../shared/components/SearchBar";
@@ -89,15 +89,39 @@ export default function FinancialReports() {
     let mounted = true;
     async function run() {
       setBusy(true);
-      const [k, m] = await Promise.all([getKpis(), getOffersRedeemed()]);
+      const [k] = await Promise.all([getKpis()]);
       if (!mounted) return;
       setKpis(k);
-      setMonthlyData(m);
       setBusy(false);
     }
     run();
     return () => (mounted = false);
   }, []);
+
+  // fetch monthly revenue when timeframe changes
+  useEffect(() => {
+    let mounted = true;
+    async function fetchMonthly() {
+      setBusy(true);
+      try {
+        const option =
+          period === "week"
+            ? weekday || null
+            : period === "date"
+            ? selectedDate || null
+            : null;
+        const m = await getMonthlyRevenue(period, option);
+        if (!mounted) return;
+        setMonthlyData(m);
+      } catch {
+        // ignore
+      } finally {
+        if (mounted) setBusy(false);
+      }
+    }
+    fetchMonthly();
+    return () => (mounted = false);
+  }, [period, weekday, selectedDate]);
 
   // fetch revenue split whenever period, weekday or selectedDate changes
   useEffect(() => {
@@ -257,9 +281,47 @@ export default function FinancialReports() {
             <h3 className="font-semibold text-black dark:text-white">
               Monthly Revenue
             </h3>
-            <select className="input text-sm w-auto">
-              <option>Last 6 Months</option>
-            </select>
+            <div className="flex items-center gap-2">
+              <label className="muted text-sm">Show:</label>
+              <select
+                className="input text-sm w-auto"
+                value={period}
+                onChange={(e) => {
+                  setPeriod(e.target.value);
+                  if (e.target.value !== "week") setWeekday("");
+                  if (e.target.value !== "date") setSelectedDate("");
+                }}
+              >
+                <option value="month">This Month</option>
+                <option value="week">This Week</option>
+                <option value="day">Today</option>
+                <option value="date">This Date</option>
+              </select>
+              {period === "week" && (
+                <select
+                  className="input text-sm w-auto"
+                  value={weekday}
+                  onChange={(e) => setWeekday(e.target.value)}
+                >
+                  <option value="">All days</option>
+                  <option value="Monday">Monday</option>
+                  <option value="Tuesday">Tuesday</option>
+                  <option value="Wednesday">Wednesday</option>
+                  <option value="Thursday">Thursday</option>
+                  <option value="Friday">Friday</option>
+                  <option value="Saturday">Saturday</option>
+                  <option value="Sunday">Sunday</option>
+                </select>
+              )}
+              {period === "date" && (
+                <input
+                  type="date"
+                  className="input text-sm w-auto"
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                />
+              )}
+            </div>
           </div>
           <BarChart
             data={monthlyData}
