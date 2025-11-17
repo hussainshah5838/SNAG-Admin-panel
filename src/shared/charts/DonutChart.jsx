@@ -1,4 +1,12 @@
 import React from "react";
+import {
+  ResponsiveContainer,
+  PieChart as RePieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+} from "recharts";
 
 /**
  * Reusable donut chart component using CSS and SVG
