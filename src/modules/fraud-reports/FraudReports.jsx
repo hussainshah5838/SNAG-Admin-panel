@@ -7,6 +7,9 @@ import { getKpis } from "../dashboard/api/dashboard.service";
 export default function FraudReports() {
   const [kpis, setKpis] = useState(null);
   const [busy, setBusy] = useState(true);
+  const [period, setPeriod] = useState("month");
+  const [weekday, setWeekday] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
 
   const [rows, setRows] = useState([
     {
@@ -79,13 +82,33 @@ export default function FraudReports() {
     let mounted = true;
     (async () => {
       setBusy(true);
-      const k = await getKpis().catch(() => null);
+      // re-fetch KPIs when timeframe changes (mock ignores params but keeps parity)
+      const k = await getKpis(
+        period,
+        period === "week" ? weekday : selectedDate
+      ).catch(() => null);
       if (!mounted) return;
       setKpis(k);
       setBusy(false);
     })();
     return () => (mounted = false);
   }, []);
+
+  // also refetch when timeframe changes
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      setBusy(true);
+      const k = await getKpis(
+        period,
+        period === "week" ? weekday : selectedDate
+      ).catch(() => null);
+      if (!mounted) return;
+      setKpis(k);
+      setBusy(false);
+    })();
+    return () => (mounted = false);
+  }, [period, weekday, selectedDate]);
 
   useEffect(() => {
     function handleResize() {
@@ -176,6 +199,53 @@ export default function FraudReports() {
                   setPage(1);
                 }}
               />
+            </div>
+            <div className="flex items-center gap-2">
+              <select
+                className="input"
+                value={period}
+                onChange={(e) => {
+                  setPeriod(e.target.value);
+                  setWeekday("");
+                  setSelectedDate("");
+                  setPage(1);
+                }}
+              >
+                <option value="month">This Month</option>
+                <option value="week">This Week</option>
+                <option value="day">This Day</option>
+                <option value="date">Select Date</option>
+              </select>
+              {period === "week" && (
+                <select
+                  className="input"
+                  value={weekday}
+                  onChange={(e) => {
+                    setWeekday(e.target.value);
+                    setPage(1);
+                  }}
+                >
+                  <option value="">Weekday</option>
+                  <option value="Monday">Monday</option>
+                  <option value="Tuesday">Tuesday</option>
+                  <option value="Wednesday">Wednesday</option>
+                  <option value="Thursday">Thursday</option>
+                  <option value="Friday">Friday</option>
+                  <option value="Saturday">Saturday</option>
+                  <option value="Sunday">Sunday</option>
+                </select>
+              )}
+              {period === "date" && (
+                <input
+                  type="date"
+                  className="input"
+                  value={selectedDate}
+                  onChange={(e) => {
+                    setSelectedDate(e.target.value);
+                    setPage(1);
+                  }}
+                />
+              )}
             </div>
             <select
               className="input w-full sm:w-40"

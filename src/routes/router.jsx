@@ -56,6 +56,20 @@ const BillingInvoices = lazy(() =>
 const BillingPayouts = lazy(() =>
   import("../modules/billing/payouts/Payouts.jsx")
 );
+const AdminInvoices = lazy(() =>
+  import("../modules/billing/AdminInvoices.jsx")
+);
+const MerchantPayments = lazy(() =>
+  import("../modules/billing/MerchantPayments.jsx")
+);
+
+const AdminBulkImport = lazy(() =>
+  import("../modules/offer-reports/AdminBulkImport.jsx")
+);
+const MerchantBulkImport = lazy(() =>
+  import("../modules/biz-catalog/menus/BulkImport.jsx")
+);
+const ImportsIndex = lazy(() => import("../modules/imports/ImportsIndex.jsx"));
 
 // Settings
 const SettingsDocs = lazy(() =>
@@ -220,10 +234,51 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: PATHS.BILLING_ADMIN_INVOICES,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <AdminInvoices />
+          </Suspense>
+        ),
+      },
+      {
+        path: PATHS.BILLING_MERCHANT_PAYMENTS,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <MerchantPayments />
+          </Suspense>
+        ),
+      },
+      {
         path: PATHS.BILLING_PAYOUTS,
         element: (
           <Suspense fallback={<Loading />}>
             <BillingPayouts />
+          </Suspense>
+        ),
+      },
+
+      {
+        path: PATHS.OFFERS_ADMIN_IMPORT,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <AdminBulkImport />
+          </Suspense>
+        ),
+      },
+      {
+        path: PATHS.IMPORTS,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <ImportsIndex />
+          </Suspense>
+        ),
+      },
+      {
+        path: PATHS.OFFERS_MERCHANT_IMPORT,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <MerchantBulkImport />
           </Suspense>
         ),
       },

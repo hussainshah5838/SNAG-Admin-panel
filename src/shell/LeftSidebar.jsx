@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { PATHS } from "../routes/paths";
 import useLocalStorage from "../shared/hooks/useLocalStorage";
 import { signOut } from "../auth/api/auth.service";
 
@@ -305,6 +306,22 @@ export default function LeftSidebar({ open, onClose }) {
           <Item to="/reports/financials" label="Financial Reports" />
           <Item to="/reports/offers" label="Offer Reports" />
           <Item to="/reports/fraud" label="Fraud Reports" />
+        </Section>
+
+        {/* Imports */}
+        <Section
+          id="imports"
+          icon="deals"
+          label="Imports"
+          openSet={openSet}
+          setOpenSet={setOpenSet}
+        >
+          <Item to={PATHS.IMPORTS} label="Import Tools" />
+          <Item to={PATHS.OFFERS_ADMIN_IMPORT} label="Admin: Offers Import" />
+          <Item
+            to={PATHS.OFFERS_MERCHANT_IMPORT}
+            label="Merchant: Offers Import"
+          />
         </Section>
 
         {/* Billing */}

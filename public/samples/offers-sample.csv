@@ -1,0 +1,4 @@
+title,merchant,location,category,price,start_date,end_date,status,max_redemptions
+"Free Coffee","Cafe Central","Downtown","Food & Beverages",0.00,2025-11-01,2025-11-30,Published,100
+"20% Off Haircut","Style Salon","Mall Branch","Beauty & Wellness",15.00,2025-11-05,2025-12-05,Published,50
+"Buy 1 Get 1","Fashion Hub","Main Store","Fashion",0.00,2025-11-10,2025-11-30,Draft,200

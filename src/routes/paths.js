@@ -26,5 +26,10 @@ export const PATHS = {
   BILLING_PLANS: "/billing/plans",
   BILLING_INVOICES: "/billing/invoices",
   BILLING_PAYOUTS: "/billing/payouts",
+  BILLING_ADMIN_INVOICES: "/billing/admin-invoices",
+  BILLING_MERCHANT_PAYMENTS: "/billing/merchant-payments",
+  OFFERS_ADMIN_IMPORT: "/admin/offers/import",
+  OFFERS_MERCHANT_IMPORT: "/merchant/offers/import",
+  IMPORTS: "/imports",
   SETTINGS_DOCS: "/settings/docs",
 };
